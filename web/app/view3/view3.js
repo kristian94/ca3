@@ -13,6 +13,13 @@ angular.module('myApp.view3', ['ngRoute'])
             $scope.searchInput;
             $scope.resultList;
             $scope.isPopulated = false;
+            $scope.searchType;
+            $scope.searchTypeHeader;
+
+            $scope.setSearchType = function(searchType, searchTypeHeader){
+                $scope.searchType = searchType;
+                $scope.searchTypeHeader = searchTypeHeader;
+            };
 
             $scope.search = function () {
                 if($scope.searchInput === undefined || $scope.searchInput === ""){
@@ -23,16 +30,18 @@ angular.module('myApp.view3', ['ngRoute'])
                 $http({
                     method: 'GET',
                     dataType: 'json',
-                    url: 'http://cvrapi.dk/api?search=' + $scope.searchInput.toLowerCase() + '&country=dk',
+                    url: 'http://cvrapi.dk/api?'+ $scope.searchType + '=' + $scope.searchInput.toLowerCase() + '&country=dk',
+//                    url: 'http://cvrapi.dk/api?vat=3167%208021&country=dk',
                     skipAuthorization: true
                     
 //                    
                 }).then(function (response) {
-                    console.log(response.data);
+//                    console.log(response.data);
+//                    console.log(response.data.productionunits[0]);
                     $scope.resultList = response.data;
                     $scope.isPopulated = true;
                 }, function (response) {
-                    alert(response.data);
+                    alert(response.data.error);
                     $scope.isPopulated = false;
                 });
             };
