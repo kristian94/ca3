@@ -13,12 +13,12 @@ angular.module('myApp.view3', ['ngRoute'])
             $scope.searchInput;
             $scope.resultList;
             $scope.isPopulated = false;
-            $scope.searchType;
-            $scope.searchTypeHeader;
+            $scope.searchType = "search";
+            $scope.searchTypeHeading;
 
-            $scope.setSearchType = function(searchType, searchTypeHeader){
+            $scope.setSearchType = function(searchType, searchTypeHeading){
                 $scope.searchType = searchType;
-                $scope.searchTypeHeader = searchTypeHeader;
+                $scope.searchTypeHeading = searchTypeHeading;
             };
 
             $scope.search = function () {
