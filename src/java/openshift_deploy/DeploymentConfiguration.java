@@ -22,9 +22,10 @@ import security.PasswordStorage;
 public class DeploymentConfiguration implements ServletContextListener {
 
     public static String PU_NAME = "PU-Local";
-
+    
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        System.out.println("hello");
         //If we are testing, then this:
         if (sce.getServletContext().getInitParameter("testEnv") != null) {
             PU_NAME = "PU_TEST";
