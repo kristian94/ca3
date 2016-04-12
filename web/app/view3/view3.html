@@ -1,11 +1,10 @@
 <div class="container" style="padding-bottom: 50px; padding-top: 10px">
     <div class="container col-md-4">
-
         <input type="search" class="form-control" ng-model="searchInput" placeholder="Search">
     </div>
     <div class="col-md-2">
         <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{{searchTypeHeader|searchTypePlaceholder}}
+            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{{searchTypeHeading|searchTypePlaceholder}}
                 <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                 <li role="presentation"><a ng-click="setSearchType('search', 'All')" role="menuitem" tabindex="-1" href="#/view3">All</a></li>
@@ -21,7 +20,7 @@
         <button class="btn btn-block btn-primary" ng-click="search()">Find</button>
     </div>
     
-
+    
 </div>
 <div  class="container">
     <uib-accordion>
@@ -29,7 +28,6 @@
             <table class="table table-striped">
                 <tr ng-repeat="(key, val) in results">
                     <td>{{key}}:</td><td>{{val|nullFilter }}</td>
-
                 </tr>
             </table>
         </uib-accordion-group>
