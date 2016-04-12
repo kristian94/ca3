@@ -2,43 +2,39 @@
 
 angular.module('myApp.view3', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view3', {
-    templateUrl: 'app/view3/view3.html',
-    controller: 'View3Ctrl'
-  });
-}])
+        .config(['$routeProvider', function ($routeProvider) {
+                $routeProvider.when('/view3', {
+                    templateUrl: 'app/view3/view3.html',
+                    controller: 'View3Ctrl'
+                });
+            }])
 
-.controller('View3Ctrl', function($http,$scope) {
-    $scope.searchInput;
-    $scope.resultList;
-    
-    $http({
-       method: 'GET',
-       header: "",
-       url: 'http://cvrapi.dk/api?search=' + $scope.searchInput + '&country=dk',
-       
-       success: function(response){
-           $scope.resultList = response.data;
-       }
-    });
-    
-    $scope.search = function(){
-        $http.get('http://cvrapi.dk/api?search=' + $scope.searchInput + '&country=dk')
-            .success(function (data, status, headers, config) {
-                $scope.resultList = data.data;
-            })
-            .error(function (data, status, headers, config) {
-              
-            });
-    };
-    
-    $scope.test = function(){
-        $scope.searchInput = "Copenhagen";
-        $scope.search();
-        console.log($scope.resultList);
-        
-    }; 
- 
-    $scope.test();
-});
+        .controller('View3Ctrl', function ($http, $scope) {
+            $scope.searchInput;
+            $scope.resultList;
+            $scope.isPopulated = false;
+
+            $scope.search = function () {
+                if($scope.searchInput === undefined || $scope.searchInput === ""){
+                    alert("Input Field Empty");
+                    return;
+                }
+                
+                $http({
+                    method: 'GET',
+                    dataType: 'json',
+                    url: 'http://cvrapi.dk/api?search=' + $scope.searchInput.toLowerCase() + '&country=dk',
+                    skipAuthorization: true
+                    
+//                    
+                }).then(function (response) {
+                    console.log(response.data);
+                    $scope.resultList = response.data;
+                    $scope.isPopulated = true;
+                }, function (response) {
+                    alert(response.data);
+                    $scope.isPopulated = false;
+                });
+            };
+
+        });
