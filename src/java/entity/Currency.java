@@ -6,11 +6,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -23,10 +27,12 @@ public class Currency implements Serializable {
     private String code;
     @Column(name = "DESCRIPTION")
     private String desc;
-    private double rate;
-
+    @OneToMany(mappedBy = "currency", cascade = CascadeType.MERGE)
     
-
+    private List<Rate> rates = new ArrayList();
+    
+     
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -52,20 +58,16 @@ public class Currency implements Serializable {
         return "entity.Currency[ id=" + code + " ]";
     }
 
-    public String getDesc() {
-        return desc;
+    public void addRate(Rate rate){
+        rates.add(rate);
+    }
+    
+    public List<Rate> getRates() {
+        return rates;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
+    public void setRates(List<Rate> rates) {
+        this.rates = rates;
     }
 
     public String getCode() {
@@ -75,5 +77,14 @@ public class Currency implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
     
 }
