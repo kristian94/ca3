@@ -9,11 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import security.IUser;
 
 @Entity
 @Table(name="SystemUser")
+@NamedQueries({
+    @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+})
 public class User implements Serializable, IUser {
   private static final long serialVersionUID = 1L;
   private String password;  //Pleeeeease dont store me in plain text

@@ -42,6 +42,24 @@ public class UserFacade implements IUserFacade {
       em.close();
     }
   }
+  
+  public List<User> getUsers() {
+      EntityManager em = emf.createEntityManager();
+      return em.createNamedQuery("User.findAll").getResultList();
+  }
+  
+  public User deleteUser(String id) {
+      EntityManager em = emf.createEntityManager();
+      User u = em.find(User.class, id);
+      try {
+        em.getTransaction().begin();
+        em.remove(u);
+        em.getTransaction().commit();
+      } finally {
+        em.close();
+      }
+      return u;
+  }
   /*
    Return the Roles if users could be authenticated, otherwise null
    */
