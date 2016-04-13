@@ -5,6 +5,7 @@ import entity.User;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -20,6 +21,18 @@ public class UserFacade implements IUserFacade {
 
   }
 
+  
+  public void persistUser(User u) {
+      EntityManager em = emf.createEntityManager();
+      try {
+          em.getTransaction().begin();
+          em.merge(u);
+          em.getTransaction().commit();
+      } finally {
+          em.close();
+      }
+  }
+  
   @Override
   public IUser getUserByUserId(String id) {
     EntityManager em = emf.createEntityManager();
