@@ -34,7 +34,7 @@ import org.eclipse.persistence.jpa.config.Cascade;
 public class DailyRate implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Date id;
     @OneToMany(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
     private List<Currency> currencies = new ArrayList();
@@ -77,7 +77,11 @@ public class DailyRate implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.DailyRate[ id=" + id + " ]";
+        String str = "";
+        for (Currency currency : currencies) {
+            str += "[" + currency.getCode() + "," + currency.getDesc() + "," + currency.getRate() + "]";
+        }
+        return "entity.DailyRate[ id=" + id + ", currency=" + str + " ]";
     }
     
 }

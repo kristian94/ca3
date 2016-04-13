@@ -5,14 +5,19 @@
  */
 package executorService;
 
+import facades.DailyRateFacade;
+
 /**
  *
  * @author Kristian Nielsen
  */
 public class Update implements Runnable {
-
+    private static final DailyRateFacade drf = new DailyRateFacade();
+    private static final XmlReader xr = new XmlReader();
+    
     @Override
     public void run() {
+        drf.persistDailyRate(xr.getDailyRate());
         System.out.println("ran");
     }
     

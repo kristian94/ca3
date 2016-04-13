@@ -5,13 +5,29 @@
  */
 package facades;
 
+import entity.DailyRate;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import openshift_deploy.DeploymentConfiguration;
+
 /**
  *
  * @author Kristian Nielsen
  */
 public class DailyRateFacade {
-    
-    
-    
-    
+
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
+
+    public void persistDailyRate(DailyRate dr) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(dr);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
 }
