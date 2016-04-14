@@ -15,6 +15,7 @@ angular.module('myApp.view3', ['ngRoute'])
             $scope.isPopulated = false;
             $scope.searchType = "search";
             $scope.searchTypeHeading;
+            
 
             $scope.setSearchType = function(searchType, searchTypeHeading){
                 $scope.searchType = searchType;

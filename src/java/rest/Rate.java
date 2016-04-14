@@ -7,17 +7,15 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import facades.RateFacade;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
+
 
 /**
  * REST Web Service
@@ -92,11 +90,17 @@ public class Rate {
     
     
     @GET
-    @Path("/{currency01}/{amount}/{currency02}")
-    @Produces("application/json")
-    public String convertAmount(@PathParam("currency01") String currency01, @PathParam("amount") String amount, @PathParam("currency02") String currency02){
-        throw new UnsupportedOperationException();
+    @Path("/{amount}/{fromcurrency}/{tocurrency}")
+    @Produces("text/html")
+    public String convertAmount(@PathParam("amount") String amount, @PathParam("fromcurrency") String fromCurrency,  @PathParam("tocurrency") String toCurrency){
+        double fromRate = rf.getNewestRateByCountryCode(fromCurrency).getRate();
+        double toRate = rf.getNewestRateByCountryCode(toCurrency).getRate(); 
+        
+        double result = Double.parseDouble(amount) * fromRate / toRate;
+        
+        return String.valueOf(result);
     }
+    
     
     
 }

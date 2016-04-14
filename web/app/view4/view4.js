@@ -9,6 +9,35 @@ angular.module('myApp.view4', ['ngRoute'])
     controllerAs : 'ctrl'
   });
 }]).controller('View4Ctrl', ['$scope', '$http', function($scope, $http) {
+    $scope.amount;
+    $scope.fromCurrency = "AUD";
+    $scope.toCurrency = "AUD";
+    $scope.convertedAmount;
+    $scope.convertedCurrency;
+//    $scope.hasConverted = false;
+    
+    $scope.setFromCurrency = function(countryCode){
+        $scope.fromCurrency = countryCode;
+    };
+    
+    $scope.setToCurrency = function(countryCode) {
+        $scope.toCurrency = countryCode;
+    };
+    
+    $scope.convert = function(){
+        console.log("converting");
+        $http.get('/SemesterSeed/api/rate/' + $scope.amount + '/' + $scope.fromCurrency + '/' + $scope.toCurrency).then(
+            function(response){
+                $scope.convertedAmount = response.data;
+                $scope.convertedCurrency = $scope.toCurrency;
+//                $scope.hasConverted = true;
+            },
+            function(response){
+                console.log(response);
+            });
+                
+    };
+    
     $http.get('/SemesterSeed/api/rate').then(
     function(response) {
         console.log(response);

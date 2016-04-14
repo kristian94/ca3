@@ -16,7 +16,7 @@ public class Tester {
         
         RateFacade rf = new RateFacade();
         
-        rf.getLatestRates();
+        System.out.println(rf.getNewestRateByCountryCode("AUD").getRate());
         
     }
 }

@@ -49,4 +49,11 @@ public class RateFacade {
     public List<Rate> getRatesByCountryCode(String code){
         return null;
     }
+    
+    public Rate getNewestRateByCountryCode(String code){
+        EntityManager em = emf.createEntityManager();
+        List<Rate> rates = ((Currency)em.createNamedQuery("Currency.FindByCode").setParameter("code", code).getSingleResult()).getRates();
+        return rates.get(0);
+        
+    }
 }

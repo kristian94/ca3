@@ -24,7 +24,8 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Currency.FindAll", query = "Select currency from Currency currency")
+    @NamedQuery(name = "Currency.FindAll", query = "Select currency from Currency currency"),
+    @NamedQuery(name = "Currency.FindByCode", query = "select c from Currency c where c.code = :code")
 })
 public class Currency implements Serializable {
     private static final long serialVersionUID = 1L;
