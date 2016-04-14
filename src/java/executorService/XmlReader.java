@@ -21,6 +21,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import openshift_deploy.DeploymentConfiguration;
 
 public class XmlReader extends DefaultHandler {
 
@@ -69,8 +73,6 @@ public class XmlReader extends DefaultHandler {
 //            currency.addRate(rate);
 //            
 //            cf.addCurrency(currency);
-        List<Rate> rates = new ArrayList();
-        List<Currency> currencies = new ArrayList();
 
         
 
@@ -80,7 +82,13 @@ public class XmlReader extends DefaultHandler {
             date = Date.valueOf(attributes.getValue("time"));
         } else if (attributes.getValue("currency") != null) {
             Rate r = new Rate();
-            Currency c = new Currency();
+            Currency c = cf.getCurrency(attributes.getValue("currency"));
+            
+            if (c == null) {
+                c = new Currency();
+                c.setCode(attributes.getValue("currency"));
+                c.setDesc(attributes.getValue("name"));
+            }
             r.setCurrency(c);
             r.setDate(date);
             
@@ -92,8 +100,7 @@ public class XmlReader extends DefaultHandler {
             }
                 
             c.addRate(r);
-            c.setCode(attributes.getValue("currency"));
-            c.setDesc(attributes.getValue("name"));
+            
             
             
             cf.addCurrency(c);

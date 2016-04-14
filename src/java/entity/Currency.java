@@ -33,7 +33,6 @@ public class Currency implements Serializable {
     @Column(name = "DESCRIPTION")
     private String desc;
     @OneToMany(mappedBy = "currency", cascade = CascadeType.MERGE)
-    
     private List<Rate> rates = new ArrayList();
     
      
@@ -68,6 +67,7 @@ public class Currency implements Serializable {
     }
     
     public List<Rate> getRates() {
+        System.out.println("rates: " + rates.size());
         return rates;
     }
 

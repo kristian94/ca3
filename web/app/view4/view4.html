@@ -15,7 +15,8 @@
                     <td><button ng-click="showDetails = showDetails ? false : true"><span class="glyphicon glyphicon glyphicon-menu-down" aria-hidden="true"></span></button></td>
                     <td>{{currency.code}}</td>
                     <td>{{currency.description}}</td>
-                    <!--td>{{currency.date}}</td-->
+                    <td>{{currency.rates[0].date}}</td>
+                    <td>{{currency.rates[0].rate}}</td>
                     <!--td>{{currency.rates | newestRate}}</td-->
                 </tr>
                 <tr ng-model="showDetails" ng-init="" ng-show="showDetails" ng-repeat-end>

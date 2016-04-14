@@ -35,6 +35,11 @@ public class CurrencyFacade {
         }
     }
     
+    public Currency getCurrency(String id) {
+        EntityManager em = emf.createEntityManager();
+        return em.find(Currency.class, id);
+    }
+    
     
     
     
