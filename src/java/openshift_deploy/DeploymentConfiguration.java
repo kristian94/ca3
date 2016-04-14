@@ -44,16 +44,20 @@ public class DeploymentConfiguration implements ServletContextListener {
             boolean makeTestUsers = context.getInitParameter("makeTestUsers").toLowerCase().equals("true");
 //      boolean makeTestUsers = false;
             if (!makeTestUsers
-                    || (em.find(User.class, "user") != null && em.find(User.class, "admin") != null)) {
-                return;
-            }
+              || (em.find(User.class, "user") != null && em.find(User.class, "admin") != null && em.find(User.class, "user_admin") != null)) {
+        return;
+      }
             Role userRole = new Role("User");
             Role adminRole = new Role("Admin");
+            
 
             User user = new User("user", PasswordStorage.createHash("test"));
             User admin = new User("admin", PasswordStorage.createHash("test"));
+            User both = new User("user_admin", PasswordStorage.createHash("test"));
             user.AddRole(userRole);
             admin.AddRole(adminRole);
+            both.AddRole(userRole);
+      both.AddRole(adminRole);
 
             try {
                 em.getTransaction().begin();
@@ -62,6 +66,7 @@ public class DeploymentConfiguration implements ServletContextListener {
 
                 em.persist(user);
                 em.persist(admin);
+                em.persist(both);
                 em.getTransaction().commit();
             } finally {
                 em.close();

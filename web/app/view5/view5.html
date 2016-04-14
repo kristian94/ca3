@@ -1,3 +1,19 @@
-<div>
-    view 5 placeholder
-</div>
+<table class="table">
+    <thead>
+        <th>Username</th>
+        <th>Roles</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="(key, user) in users">
+            <td>{{user.username}}</td>
+            <td>{{user.roles | commaSeperatedList}}</td>
+            <td style="width: 1em;">
+                <button type="button" class="btn btn-danger btn-xs" ng-click="removeUser($event, user.username)" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </td>
+            
+        </tr>
+    </tbody>
+</table>

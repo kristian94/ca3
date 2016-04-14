@@ -64,16 +64,8 @@ public class Admin {
         try {
             User u = uf.deleteUser(id);
         } catch (Exception e) {
-            System.out.println(e);
-            return e.toString();
-            //return gson.toJson("Something went wrong");
+            return gson.toJson("Something went wrong");
         }
-        return "jear";
-        
-//        if (u != null) {
-//            return gson.toJson("User was deleted");
-//        } else {
-//            return gson.toJson("Something went wrong");
-//        }
+        return gson.toJson("User was deleted");
     }
 }
