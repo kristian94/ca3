@@ -22,7 +22,9 @@ import rest.ApplicationConfig;
 public class BackendTest {
 
     static Server server;
-
+    
+    
+    
     public BackendTest() {
         baseURI = "http://localhost:8082";
         defaultParser = Parser.JSON;

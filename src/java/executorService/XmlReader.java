@@ -6,8 +6,9 @@
 package executorService;
 
 import entity.Currency;
-import entity.DailyRate;
-import facades.DailyRateFacade;
+import entity.Rate;
+import facades.CurrencyFacade;
+import facades.RateFacade;
 import java.io.IOException;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
@@ -16,56 +17,60 @@ import java.sql.Date;
 
 public class XmlReader extends DefaultHandler {
     
-    private static DailyRate dr = new DailyRate();
+    Date date;
+    CurrencyFacade cf = new CurrencyFacade();
+    RateFacade drf = new RateFacade();
     
     @Override
     public void startDocument() throws SAXException {
-        System.out.println("Start Document (Sax-event)");
     }
 
     @Override
     public void endDocument() throws SAXException {
-        System.out.println("End Document (Sax-event)");
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        Currency c = new Currency();
-        System.out.print("Element: " + localName + ": ");
-        for (int i = 0; i < attributes.getLength(); i++) {
+        
+        
+        
+        
+        if(localName.equals("dailyrates")){
+            date = Date.valueOf(attributes.getValue(0));
+            return;
+        }
+        if(localName.equals("currency")) {
+       
+            Currency currency = new Currency();
+            Rate rate = new Rate();
+
+            currency.setCode(attributes.getValue(0));
+            currency.setDesc(attributes.getValue(1));
             
-            switch (attributes.getLocalName(i)) {
-                case "code":
-                    c.setCode(attributes.getValue(i));
-                    break;
-                case "desc":
-                    c.setDesc(attributes.getValue(i));
-                    break;
-                case "rate":
-                    double rate;
-                    try {
-                        rate = Double.parseDouble(attributes.getValue(i));
-                    } catch (NumberFormatException e) {
-                        rate = -1; //input string was most likely "-"
-                    }
-                    c.setRate(rate);
-                    break;
-                case "id":
-                    Date date = Date.valueOf(attributes.getValue(i));
-                    dr.setId(date);
-                    break;
-                default:
-                    break;
+            System.out.println(currency.getCode());
+            
+            
+            
+
+            rate.setCurrency(currency);
+            rate.setDate(date);
+            try{
+                rate.setRate(Double.parseDouble(attributes.getValue(2)));
+            }catch(NumberFormatException e){
+                rate.setRate(-1);
             }
-            System.out.print("[Atribute: NAME: " + attributes.getLocalName(i) + " VALUE: " + attributes.getValue(i) + "] ");
+            
+            
+            currency.addRate(rate);
+            
+            cf.addCurrency(currency);
+            
+ 
         }
-        if (c.getCode() != null && c.getDesc() != null) {
-            dr.addCurrency(c);
-        }        
-        System.out.println("");
     }
 
-    public static void main(String[] argv) {
+
+    public void getDailyRate() {
         try {
             XMLReader xr = XMLReaderFactory.createXMLReader();
             
@@ -75,19 +80,7 @@ public class XmlReader extends DefaultHandler {
         } catch (SAXException | IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public DailyRate getDailyRate() {
-        try {
-            XMLReader xr = XMLReaderFactory.createXMLReader();
-            
-            xr.setContentHandler(new XmlReader());
-            URL url = new URL("http://www.nationalbanken.dk/_vti_bin/DN/DataService.svc/CurrencyRatesXML?lang=en");
-            xr.parse(new InputSource(url.openStream()));
-        } catch (SAXException | IOException e) {
-            e.printStackTrace();
-        }
-        return dr;
+        
     }
 
 }
