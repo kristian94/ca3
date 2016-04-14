@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -21,6 +23,9 @@ import javax.persistence.OneToMany;
  * @author Kristian Nielsen
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Currency.FindAll", query = "Select currency from Currency currency")
+})
 public class Currency implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

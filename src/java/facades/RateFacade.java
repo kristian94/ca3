@@ -5,6 +5,7 @@
  */
 package facades;
 
+import entity.Currency;
 import entity.Rate;
 import java.sql.Date;
 import java.util.List;
@@ -38,6 +39,11 @@ public class RateFacade {
         EntityManager em = emf.createEntityManager();
         Date date = ((Rate) em.createNamedQuery("Rate.FindNewestDate").getResultList().get(0)).getDate();
         return em.createNamedQuery("Rate.FindByDate").setParameter("date", date).getResultList();
+    }
+    
+    public List<Currency> getAllRates(){
+        EntityManager em = emf.createEntityManager();
+        return em.createNamedQuery("Currency.FindAll").getResultList();
     }
     
     public List<Rate> getRatesByCountryCode(String code){

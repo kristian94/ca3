@@ -28,9 +28,9 @@ import org.eclipse.persistence.jpa.config.Cascade;
  * @author Kristian Nielsen
  */
 @NamedQueries({
-    @NamedQuery(name = "Rate.FindAll", query = "Select rate from Rate rate"),
+    @NamedQuery(name = "Rate.FindAllByCurrency", query = "Select currency from Currency currency"),
     @NamedQuery(name = "Rate.FindById", query = "Select rate  from Rate rate where rate.id = :id"),
-    @NamedQuery(name = "Rate.FindByDate", query = "Select rate.date from Rate rate where rate.date = :date"),
+    @NamedQuery(name = "Rate.FindByDate", query = "Select rate from Rate rate where rate.date = :date"),
     @NamedQuery(name = "Rate.FindNewestDate", query = "Select rate from Rate rate ORDER BY rate.date DESC")
 })
 

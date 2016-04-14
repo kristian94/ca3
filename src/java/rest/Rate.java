@@ -6,6 +6,9 @@
 package rest;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import facades.RateFacade;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -37,19 +40,54 @@ public class Rate {
      * Retrieves representation of an instance of rest.Rate
      * @return an instance of java.lang.String
      */
+    
+    
+    @GET
+    @Produces("application/json")
+    public String getRates(){
+        JsonArray json = new JsonArray();
+        for (entity.Currency currency : rf.getAllRates()) {
+            JsonObject currencyJson = new JsonObject();
+            currencyJson.addProperty("code", currency.getCode());
+            currencyJson.addProperty("description", currency.getDesc());
+            JsonArray ratesArray = new JsonArray();
+            for (entity.Rate rate : currency.getRates()) {
+                JsonObject rateObj = new JsonObject();
+                rateObj.addProperty("date", rate.getDate().toString());
+                rateObj.addProperty("rate", rate.getRate());
+                ratesArray.add(rateObj);
+            }
+            currencyJson.add("rates", ratesArray);
+            json.add(currencyJson);
+        }
+        
+        return gson.toJson(json);
+    }
+    
+    @GET
+    @Path("/latest")
+    @Produces("application/json")
+    public String getLatestsRates(){
+        JsonArray json = new JsonArray();
+        for (entity.Rate latestRate : rf.getLatestRates()) {
+            JsonObject jo = new JsonObject();
+            jo.addProperty("date", latestRate.getDate().toString());
+            jo.addProperty("rate", latestRate.getRate());
+            JsonObject currency = new JsonObject();
+            currency.addProperty("code", latestRate.getCurrency().getCode());
+            currency.addProperty("description", latestRate.getCurrency().getDesc());
+            jo.add("currency", currency);
+            json.add(jo);
+        }
+        
+        return gson.toJson(json);
+    }
+    
     @GET
     @Path("/{code}")
     @Produces("application/json")
     public String getRatesByCountryCode(@PathParam("code") String code) {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
-    }
-    
-    @GET
-    @Produces("application/json")
-    public String getLatestsRates(){
-        return "hey";
-//        return gson.toJson(rf.getLatestRates());
+        return gson.toJson("yep");
     }
     
     
