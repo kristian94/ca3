@@ -1,20 +1,20 @@
-<div class="container-fluid col-lg-offset-3">
+<div class="container-fluid calculator">
     <div class='container-fluid'>
         <h2>Currency Converter</h2>
     </div>
-    <div class='container centered'>
+    <div>
         <!--        <div class='col-lg-4 col-lg-offset-4'>-->
-        <input class='lead' type="number" ng-model="amount">
-        <button ng-click="convert()" class='btn btn-success'>Go</button>
+        <input class='calc-input' type="number" ng-model="amount">
+        <button ng-click="convert()" class='btn btn-success calc-submit'>Go</button>
         <!--</div>-->
     </div>
     <br>
 
-    <div class='container-fluid' style="margin-left: -10px">
-        <div class='col-md-1'>
+    <div class='container-fluid currencies' style="margin-left: -10px">
+        <div>
             <p class='text-right lead'>From:</p>
         </div>
-        <div class='col-md-1' >
+        <div>
             <div class="dropdown">
 
                 <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{{fromCurrency}}
@@ -26,10 +26,10 @@
             </div>
         </div>
 
-        <div class='col-md-1' style='margin-left: 15px'>
+        <div style='margin-left: 15px'>
             <p class='text-right lead'>To:</p>
         </div>
-        <div class='col-md-1'>
+        <div>
             <div class="dropdown">
 
                 <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{{toCurrency}}
