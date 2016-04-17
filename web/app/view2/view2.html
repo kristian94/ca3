@@ -7,10 +7,10 @@
     <p>We all had influence on most aspects of the program, but we each had a responsiblity for a specific part of the code.</p>
     <p>Christopher: XmlReader (daily rates) 
     </p>
-    <p>Mats: AllUsers page 
+    <p>Mats: AllUsers page
         
     </p>
-    <p>Kristian: Currency Calculator, XmlReader (last 5 weekdays)
+    <p>Kristian: Currency Calculator, XmlReader (last 5 weekdays), Deploying to Openshift
         
     </p>
     <p>We all had shared responsiblity for the rest of the code.
@@ -18,6 +18,56 @@
     </p>
     
     <h3>How to test</h3>
-    <p> Den tager Christopher :) </p>
+    <p> Rest API'et kan testes via Postman: </p>
+    <br>
+    <h4>Create User</h4>
+    <p>url: <code>{root-url}/api/createuser</code></p>
+    
+    <p>Input: JsonObject med 'username', 'password' og 'roles', ex:</p>
+    <code style='white-space: pre-wrap;'>
+    {
+        "username":"user",
+        "password":"test",
+        "roles":["User"]
+    }
+    </code>
+        
+    <h4>Get Users (Admin only)</h4>
+    <p>url: <code>{root-url}/api/admin/users</code></p>
+    
+    <p>Output: JsonObject med liste af users, ex:</p>
+    <code style='white-space: pre-wrap;'>
+    [
+        {
+            "username":"user",
+            "roles":[
+                "User"
+            ]
+        },
+        {
+            "username":"admin",
+            "roles":[
+                "Admin"
+            ]
+        },
+        {
+            "username":"user_admin"
+            "roles":[
+                "Admin",
+                "User"
+            ]
+        }
+    ]
+    </code>
+    
+    <h4>Delete User (Admin only)</h4>
+    <p>url: <code>{root-url}/api/admin/user/{id}</code></p>
+    
+    <p>Input: PathParam med id for den bruger der skal slettes</p>
+    <br>
+    <br>
+    <br>
+    
+    
     
 </div>

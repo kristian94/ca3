@@ -2,9 +2,6 @@ package openshift_deploy;
 
 import entity.Role;
 import entity.User;
-import facades.UserFacade;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,25 +12,25 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.ws.rs.core.Context;
 import security.PasswordStorage;
 
 @WebListener
 public class DeploymentConfiguration implements ServletContextListener {
 
-    public static String PU_NAME = "PU-Local";
+    public static String PU_NAME = "PU_OPENSHIFT";
+//    public static String PU_NAME = "PU-Local";
     
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("hello");
+        System.out.println("Running ContextInit");
         //If we are testing, then this:
         if (sce.getServletContext().getInitParameter("testEnv") != null) {
             PU_NAME = "PU_TEST";
         }
         Map<String, String> env = System.getenv();
         //If we are running in the OPENSHIFT environment change the pu-name 
-        if (env.keySet().contains("OPENSHIFT_MYSQL_DB_HOST")) {
-            PU_NAME = "PU_OPENSHIFT";
+        if (!env.keySet().contains("OPENSHIFT_MYSQL_DB_HOST")) {
+            PU_NAME = "PU-Local";
         }
         try {
             ServletContext context = sce.getServletContext();
@@ -44,7 +41,7 @@ public class DeploymentConfiguration implements ServletContextListener {
             boolean makeTestUsers = context.getInitParameter("makeTestUsers").toLowerCase().equals("true");
 //      boolean makeTestUsers = false;
             if (!makeTestUsers
-              || (em.find(User.class, "user") != null && em.find(User.class, "admin") != null && em.find(User.class, "user_admin") != null)) {
+              || (em.find(User.class, "user") != null && em.find(User.class, "admin") != null)) {
         return;
       }
             Role userRole = new Role("User");
@@ -53,11 +50,8 @@ public class DeploymentConfiguration implements ServletContextListener {
 
             User user = new User("user", PasswordStorage.createHash("test"));
             User admin = new User("admin", PasswordStorage.createHash("test"));
-            User both = new User("user_admin", PasswordStorage.createHash("test"));
             user.AddRole(userRole);
             admin.AddRole(adminRole);
-            both.AddRole(userRole);
-      both.AddRole(adminRole);
 
             try {
                 em.getTransaction().begin();
@@ -66,7 +60,6 @@ public class DeploymentConfiguration implements ServletContextListener {
 
                 em.persist(user);
                 em.persist(admin);
-                em.persist(both);
                 em.getTransaction().commit();
             } finally {
                 em.close();
@@ -74,6 +67,7 @@ public class DeploymentConfiguration implements ServletContextListener {
         } catch (PasswordStorage.CannotPerformOperationException ex) {
             Logger.getLogger(DeploymentConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("ContextInit Done");
 
     }
 

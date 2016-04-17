@@ -52,12 +52,12 @@
                     </div>
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li><a class="lead" href="#/view1">Home</a></li>
-                            <li><a class="lead" href="#/view2">Documentation</a></li>
-                            <li><a class="lead" ng-show="isUser" href="#/view3">Company Info</a></li>
-                            <li><a class="lead" ng-show="isUser" href="#/view4">Exchange Rate Info</a></li>
-                            <li><a class="lead" ng-show="isAdmin" href="#/view5">All Users</a></li>
-                            <li><a class="lead" ng-show="!isAuthenticated" href="#/view6">Register</a></li>
+                            <li><a class="menu-item" href="#/view1">Home</a></li>
+                            <li><a class="menu-item" href="#/view2">Documentation</a></li>
+                            <li><a class="menu-item" ng-show="isUser" href="#/view3">Company Info</a></li>
+                            <li><a class="menu-item" ng-show="isUser" href="#/view4">Exchange Rate Info</a></li>
+                            <li><a class="menu-item" ng-show="isAdmin" href="#/view5">All Users</a></li>
+                            <li><a class="menu-item" ng-show="!isAuthenticated" href="#/view6">Register</a></li>
                         </ul>
                         <div>
                             <form class="navbar-form navbar-right" role="form" ng-show="!isAuthenticated" ng-submit="login()"  >
@@ -85,7 +85,7 @@
 
             <div class="container">
                 <div style="margin-top: 60px;">
-                    <hr style="background: lightblue; border:0; height:7px" />
+                    <hr style="background: #a8aeb0; border-radius: 3px; border:0; height:7px" />
                     <div class="alert alert-danger" role="alert" ng-show="error">{{error}}</div>
                     <div ng-view></div>
                 </div>

@@ -8,7 +8,6 @@ package executorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -28,9 +27,10 @@ public class BackgroundJobManager implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("contextInit");
+        System.out.println("Running BJM ContextInit");
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(new Update(), 0, 4, TimeUnit.HOURS);
+        System.out.println("Done Running BJM ContextInit");
     }
 
     @Override
